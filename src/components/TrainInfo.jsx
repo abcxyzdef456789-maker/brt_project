@@ -71,14 +71,15 @@ function TrainInfo({ trains = [], initialTrain = '' }) {
   };
 
   return (
-    <div>
-      <div className="flex gap-2 mb-6 flex-wrap items-end">
-        <div className="flex flex-col">
-          <label className="text-xs text-gray-400 mb-1">Select Train Number</label>
+    <div className="trainwise-page">
+      <div className="train-toolbar">
+        <div className="train-select-field">
+          <label className="label" htmlFor="train-number">Select Train Number</label>
           <select
+            id="train-number"
             value={trainNo}
             onChange={(e) => setTrainNo(e.target.value)}
-            className="p-3 rounded-lg bg-gray-800 border border-gray-700 text-white w-48"
+            className="input train-select"
           >
             <option value="">Type or select a train number...</option>
             {trains.map((t) => (
@@ -86,26 +87,27 @@ function TrainInfo({ trains = [], initialTrain = '' }) {
             ))}
           </select>
         </div>
-<button
+        <button
           onClick={analyze}
-          className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg flex items-center gap-2"
+          className="btn btn-primary train-analyze"
+          disabled={loading}
         >
           {loading ? <Loader className="animate-spin" size={18} /> : <Search size={18} />}
           Analyze
         </button>
       </div>
 
-      {error && <div className="bg-red-900/50 border border-red-700 text-red-200 p-3 rounded-lg mb-4">{error}</div>}
-      {loading && <p className="text-gray-400">Loading...</p>}
+      {error && <div className="train-error" role="alert">{error}</div>}
+      {loading && <p className="train-loading">Loading...</p>}
 
       {data && (
         <>
-<h3 className="text-xl font-bold mb-4">Route Details for Train {data.train_no}</h3>
+          <h2 className="train-results-title">Route Details for Train {data.train_no}</h2>
 
           <TotalsBar totals={data.totals} variancePct={data.variance_pct} />
 
-<div className="table-wrap">
-            <table className="table">
+          <div className="table-wrap train-table-wrap">
+            <table className="table train-table">
               <thead>
                 <tr>
                   <th className="w-8"></th>
@@ -123,7 +125,7 @@ function TrainInfo({ trains = [], initialTrain = '' }) {
                         <td>
                           <button
                             onClick={() => toggleChart(i, leg)}
-                            style={{ color: 'var(--accent)' }}
+                            className="route-expand"
                             title="Toggle charts"
                           >
                             {expanded[i] ? <Minus size={16} /> : <Plus size={16} />}

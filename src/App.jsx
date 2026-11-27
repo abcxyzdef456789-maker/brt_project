@@ -85,10 +85,6 @@ function App() {
     }
   };
 
-  const handleTabChange = (nextTab) => {
-    setTab(nextTab);
-  };
-
   if (!authed) {
     return <Login onLogin={() => setAuthed(true)} />;
   }
@@ -114,7 +110,7 @@ function App() {
                 <TrainFront size={21} />
               </span>
               <div>
-                <p className="app-brand-eyebrow">Rail operations analytics</p>
+                <p className="app-brand-eyebrow">Bare Runtime Analysis</p>
                 <h1 className="app-brand-name">BRT <span>Calculator</span></h1>
               </div>
             </div>
@@ -166,7 +162,6 @@ function App() {
             trains={trains}
             sections={sections}
             onNavigate={handleNavigate}
-            onTabChange={handleTabChange}
           />
         )}
         {tab === 'train' && <TrainInfo trains={trains} initialTrain={selectedTrain} />}
